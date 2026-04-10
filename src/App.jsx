@@ -2843,7 +2843,7 @@ export default function App() {
 
       {/* NAV */}
       <nav style={{ display: "flex", alignItems: "center", gap: 8, padding: "11px 16px", borderBottom: "1px solid " + C.border, background: "rgba(6,8,15,0.98)", position: "sticky", top: 0, zIndex: 200, backdropFilter: "blur(20px)" }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: C.blue, letterSpacing: "0.18em", marginRight: 4 }}>OPTIFLOW</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: C.blue, letterSpacing: "0.18em", marginRight: 4 }}>optiflows</div>
         <div className="desktop-nav" style={{ display: "flex", gap: 2, flexWrap: "nowrap", overflowX: "auto" }}>
           {ALL_PAGES.map(([id, label]) => <button key={id} style={tabSt(page === id)} onClick={() => setPage(id)}>{label}</button>)}
         </div>
