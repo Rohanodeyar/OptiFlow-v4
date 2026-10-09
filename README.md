@@ -10,9 +10,9 @@ OptiFlow is a browser-based paper-trading platform for US equity options. It pri
 
 | Area | What it does |
 |---|---|
-| **Options pricing** | Black-Scholes pricing for calls and puts with delta, gamma, theta and vega; full options chain with implied volatility by strike |
+| **Options pricing** | Black-Scholes pricing for calls and puts with delta, gamma, theta and vega; full options chain with implied volatility by strike; implied volatility solver (Newton-Raphson with bisection fallback) with no-arbitrage checks |
 | **Strategy Builder** | 12 strategies (long calls/puts, bull and bear spreads, straddle, strangle, covered call, protective put, butterfly, iron condor); payoff diagrams, max profit / max loss, breakevens and scenario P&L; a rule-based trade evaluation (expected value, probability of profit, reward/risk, IV rank, VIX regime) |
-| **Greeks Dashboard** | How delta, gamma, theta and vega change with price and time to expiry |
+| **Greeks Dashboard** | How delta, gamma, theta and vega change with price and time to expiry; implied volatility calculator that backs out IV from a market price and shows the Greeks at that IV |
 | **Margin Calculator** | SPAN-style margin estimate with scenario analysis |
 | **Order ticket** | Market, limit, stop-loss, bracket, cover and GTT orders |
 | **Market data** | Market dashboard, sector heatmap, news with sentiment scoring, earnings calendar with implied-move vs historical-volatility comparison, crypto dashboard |
@@ -44,13 +44,24 @@ VITE_ALPHAVANTAGE_KEY=your_key
 
 Indian market (NSE) prices are simulated.
 
+## Tests
+
+```bash
+npm test
+```
+
+Unit tests for the pricing engine run on Node's built-in test runner (no extra dependencies). They check Black-Scholes against textbook values, put-call parity across strikes and maturities, the signs, ranges and units of the Greeks, implied-volatility round-trips (including deep in- and out-of-the-money options), rejection of prices outside no-arbitrage bounds, and behaviour at expiry.
+
 ## Project structure
 
 ```
 src/
-  main.jsx       entry point
-  OptiFlow.jsx   application (pricing engine, data layer, pages and components)
-  index.css      global styles
+  main.jsx          entry point
+  OptiFlow.jsx      application (data layer, pages and components)
+  pricing.js        Black-Scholes pricing, Greeks, implied volatility and put-call parity
+  index.css         global styles
+tests/
+  pricing.test.js   unit tests for the pricing engine
 ```
 
 ## Author
