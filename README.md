@@ -1,5 +1,7 @@
 # OptiFlow – Options Trading Simulator
 
+![Tests](https://github.com/Rohanodeyar/OptiFlow-v4/actions/workflows/test.yml/badge.svg)
+
 **Live demo:** https://opti-flow-v4.vercel.app
 
 OptiFlow is a browser-based paper-trading platform for US equity options. It prices options with Black-Scholes, shows the Greeks in real time, and lets you build, stress-test and track multi-leg strategies with virtual capital ($50,000 starting cash). A built-in academy of 37 lessons teaches the concepts behind every screen.
@@ -52,16 +54,24 @@ npm test
 
 Unit tests for the pricing engine run on Node's built-in test runner (no extra dependencies). They check Black-Scholes against textbook values, put-call parity across strikes and maturities, the signs, ranges and units of the Greeks, implied-volatility round-trips (including deep in- and out-of-the-money options), rejection of prices outside no-arbitrage bounds, and behaviour at expiry.
 
+Strategy payoff tests cover all 12 Strategy Builder strategies: max profit and max loss of bull call and bear put spreads, credit spreads, butterflies and iron condors against the closed-form (width − premium) values, straddle breakevens at strike ± total premium, the capped upside of a covered call and the floored downside of a protective put, the sign of the payoff at extreme prices, and that every strategy returns finite numbers across a range of inputs.
+
+Tests run automatically on every push and pull request to `main` via GitHub Actions, followed by a production build.
+
 ## Project structure
 
 ```
 src/
-  main.jsx          entry point
-  OptiFlow.jsx      application (data layer, pages and components)
-  pricing.js        Black-Scholes pricing, Greeks, implied volatility and put-call parity
-  index.css         global styles
+  main.jsx              entry point
+  OptiFlow.jsx          application (data layer, pages and components)
+  pricing.js            Black-Scholes pricing, Greeks, implied volatility and put-call parity
+  strategies.js         strategy definitions, payoff at expiry, breakevens and scenario P&L
+  index.css             global styles
 tests/
-  pricing.test.js   unit tests for the pricing engine
+  pricing.test.js       unit tests for the pricing engine
+  strategies.test.js    unit tests for strategy payoffs
+.github/workflows/
+  test.yml              runs tests and build on every push (GitHub Actions)
 ```
 
 ## Author
